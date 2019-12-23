@@ -1,0 +1,17 @@
+---
+all:
+  children:
+    web:
+      hosts:
+        web.a:
+          ansible_host: 127.0.0.1
+          ansible_port: 2222
+        web.b:
+          ansible_host: 127.0.0.1
+          ansible_port: 2200
+        web.c:
+          ansible_host: 127.0.0.1
+          ansible_port: 2201
+      vars:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
