@@ -1,0 +1,3 @@
+# Vagrant temp files
+.vagrant
+*-console.log
