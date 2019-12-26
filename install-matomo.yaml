@@ -10,7 +10,18 @@
           - apache2
           - libapache2-mod-php7.2
           - unzip
+          - php7.2-mbstring
+          - php7.2-mysql
+          - php7.2-xml
+          - php7.2-gd
         state: present
+      register: installation
+
+    - name: Restart webserver if installation changed
+      service:
+        name: apache2
+        state: restarted
+      when: installation is changed
 
     - name: Make sure Matomo files are present
       unarchive:
@@ -20,8 +31,3 @@
         group: www-data
         exclude:
           - How to install Matomo.html
-
-    - name: Make sure the virtualhost is configured
-      template:
-        src: templates/matomo.conf.j2
-        dest: /etc/apache2/sites-available/matomo.conf
