@@ -1,3 +1,5 @@
 # Vagrant temp files
 .vagrant
 *-console.log
+files/*.zip
+files/*.tar.gz
