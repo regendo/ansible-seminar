@@ -1,10 +1,27 @@
 ---
 - name: Install, Configure, Upgrade Matomo
   hosts: web
+  become: yes
 
   tasks:
-    - name: Install the Apache2 Webserver
-      become: yes
+    - name: Make sure required packages are installed
       apt:
-        pkg: apache2
+        pkg:
+          - apache2
+          - libapache2-mod-php7.2
+          - unzip
         state: present
+
+    - name: Make sure Matomo files are present
+      unarchive:
+        src: "files/matomo.zip"
+        dest: "{{ webroot }}"
+        owner: www-data
+        group: www-data
+        exclude:
+          - How to install Matomo.html
+
+    - name: Make sure the virtualhost is configured
+      template:
+        src: templates/matomo.conf.j2
+        dest: /etc/apache2/sites-available/matomo.conf
