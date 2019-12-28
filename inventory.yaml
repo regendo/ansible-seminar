@@ -6,13 +6,23 @@ all:
         web.a:
           ansible_host: 127.0.0.1
           ansible_port: 2200
+          local_address: "{{ansible_host}}:8180"
         web.b:
           ansible_host: 127.0.0.1
           ansible_port: 2201
+          local_address: "{{ansible_host}}:8280"
+
         web.c:
           ansible_host: 127.0.0.1
           ansible_port: 2202
+          local_address: "{{ansible_host}}:8380"
       vars:
         ansible_user: vagrant
         ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
         webroot: /var/www/html
+        loadbalanced_address: matomo.example.com
+        db_host: 10.0.2.2
+        db_username: root
+        db_password: root
+        db_name: myDB
+        db_tables_prefix: matomo_
