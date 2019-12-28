@@ -31,3 +31,8 @@
         group: www-data
         exclude:
           - How to install Matomo.html
+
+    - name: Make sure Matomo is configured correctly
+      template:
+        src: templates/webroot/matomo/config/config.ini.php.j2
+        dest: "{{ webroot }}/matomo/config/config.ini.php"
