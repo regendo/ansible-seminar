@@ -15,12 +15,15 @@
           - php7.2-xml
           - php7.2-gd
         state: present
+        update_cache: yes
+      # save output into a variable so we can check it in the next task
       register: installation
 
     - name: Restart webserver if installation changed
       service:
         name: apache2
         state: restarted
+      # only run when (if) packages were installed in the previous step
       when: installation is changed
 
     - name: Make sure Matomo files are present
@@ -36,3 +39,5 @@
       template:
         src: templates/webroot/matomo/config/config.ini.php.j2
         dest: "{{ webroot }}/matomo/config/config.ini.php"
+        owner: www-data
+        group: www-data
