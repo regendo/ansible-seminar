@@ -41,3 +41,16 @@
         dest: "{{ webroot }}/matomo/config/config.ini.php"
         owner: www-data
         group: www-data
+
+    - name: Make sure the database is up-to-date
+      command: "{{ webroot }}/matomo/console core:update --yes"
+      become_user: www-data
+      # Only run this on one host. No need to update the database multiple times.
+      run_once: yes
+      register: db_update_result
+      # Ansible doesn't know this specific program, so we need to
+      # do our "did this change or not?" logic ourselves.
+      changed_when:
+        - not db_update_result.failed
+        - db_update_result.stdout is defined
+        - '"Everything is already up to date." not in db_update_result.stdout'
